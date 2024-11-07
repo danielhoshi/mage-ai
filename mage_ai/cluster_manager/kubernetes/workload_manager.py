@@ -411,7 +411,7 @@ class WorkloadManager:
                 'replicas': 1,
                 'minReadySeconds': 10,
                 'template': {
-                    'metadata': merge_dict(pod_labels, {'labels': {'app': name}}),
+                    'metadata': merge_dict(pod_labels, {'labels': {'app': name}, 'annotations': {"sidecar.istio.io/inject": "false"}}),
                     'spec': stateful_set_template_spec,
                 },
                 'volumeClaimTemplates': [

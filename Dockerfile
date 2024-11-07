@@ -53,14 +53,17 @@ RUN \
 
 # Mage
 COPY ./mage_ai/server/constants.py /tmp/constants.py
-RUN if [ -z "$FEATURE_BRANCH" ] || [ "$FEATURE_BRANCH" = "null" ] ; then \
+# RUN if [ -z "$FEATURE_BRANCH" ] || [ "$FEATURE_BRANCH" = "null" ] ; then \
+#   tag=$(tail -n 1 /tmp/constants.py) && \
+#   VERSION=$(echo "$tag" | tr -d "'") && \
+#   pip3 install --no-cache-dir "mage-ai[all]==$VERSION"; \
+#   else \
+#   pip3 install --no-cache-dir "git+https://github.com/danielhoshi/mage-ai.git@$FEATURE_BRANCH#egg=mage-ai[all]"; \
+#   fi
+RUN \
   tag=$(tail -n 1 /tmp/constants.py) && \
   VERSION=$(echo "$tag" | tr -d "'") && \
-  pip3 install --no-cache-dir "mage-ai[all]==$VERSION"; \
-  else \
-  pip3 install --no-cache-dir "git+https://github.com/mage-ai/mage-ai.git@$FEATURE_BRANCH#egg=mage-ai[all]"; \
-  fi
-
+  pip3 install --no-cache-dir "git+https://github.com/danielhoshi/mage-ai.git@$VERSION#egg=mage-ai[all]";
 
 ## Startup Script
 COPY --chmod=0755 ./scripts/install_other_dependencies.py ./scripts/run_app.sh /app/
